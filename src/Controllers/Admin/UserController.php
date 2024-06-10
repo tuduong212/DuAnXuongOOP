@@ -31,18 +31,49 @@ class UserController extends Controller
     {
         $validator = new Validator();
         $validation = $validator->make($_POST + $_FILES, [
-            'name'                  => 'required',
-            'email'                 => 'required|email',
-            'password'              => 'required|min:6',
-            'confirm_password'      => 'required|same:password',
-            'avatar'                => 'required|uploaded_file:0,2M,png,jpg,jpeg',
+            'name' => 'required|max:50',
+            'email' => 'required|email',
+            'password' => 'required|min:6',
+            'confirm_password' => 'required|same:password',
+            'avatar' => 'uploaded_file:0,2M,png,jpg,jpeg',
         ]);
+        $validation->validate();
+
+        if ($validation->fails()) {
+            $_SESSION['errors'] = $validation->errors()->firstOfAll();
+            header('Location: ' . url('admin/users/create'));
+            exit;
+        } else {
+            $data = [
+                'name' => $_POST['name'],
+                'email' => $_POST['email'],
+                'password' => password_hash($_POST['password'], PASSWORD_DEFAULT),
+            ];
+            if (isset($_FILES['avatar']) && $_FILES['avatar']['size'] > 0) {
+                $from = $_FILES['avatar']['tmp_name'];
+                $to = 'assets/uploads/' . time() . $_FILES['avatar']['name'];
+
+                if (move_uploaded_file($from, PATH_ROOT . $to)) {
+                    $data['avatar'] = $to;
+                } else {
+                    $_SESSION['errors']['avatar'] = "Upload failed";
+
+                    header('Location: ' . url('admin/users/create'));
+                    exit;
+                }
+            }
+            $this->user->insert($data);
+
+            $_SESSION['status'] = true;
+            $_SESSION['msg'] = 'Thao tác thành công';
+
+            header('Location: ' . url('admin/users/'));
+            exit;
+        }
     }
     public function show($id)
     {
         $user = $this->user->findByID($id);
-
-        Helper::debug($user);
 
         $this->renderViewAdmin('users.show', [
             'user' => $user
@@ -50,11 +81,68 @@ class UserController extends Controller
     }
     public function edit($id)
     {
-        echo __CLASS__ . '@' . __FUNCTION__ . 'ID=' . $id;
+        $user = $this->user->findByID($id);
+
+        $this->renderViewAdmin('users.edit', [
+            'user' => $user
+        ]);
     }
     public function update($id)
     {
-        echo __CLASS__ . '@' . __FUNCTION__ . 'ID=' . $id;
+        $user = $this->user->findByID($id);
+        $validator = new Validator();
+        $validation = $validator->make($_POST + $_FILES, [
+            'name' => 'max:50',
+            'email' => 'email',
+            'password' => 'min:6',
+            'avatar' => 'uploaded_file:0,2M,png,jpg,jpeg',
+        ]);
+        $validation->validate();
+
+        if ($validation->fails()) {
+            $_SESSION['errors'] = $validation->errors()->firstOfAll();
+            header('Location: ' . url("admin/users/{$user['id']}/edit"));
+            exit;
+        } else {
+            $data = [
+                'name' => $_POST['name'],
+                'email' => $_POST['email'],
+                'password' => !empty($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT) : $user['password'],
+            ];
+
+            $flagUpload = false;
+            if (isset($_FILES['avatar']) && $_FILES['avatar']['size'] > 0) {
+                $flagUpload = false;
+                $from = $_FILES['avatar']['tmp_name'];
+                $to = 'assets/uploads/' . time() . $_FILES['avatar']['name'];
+
+                if (move_uploaded_file($from, PATH_ROOT . $to)) {
+                    $data['avatar'] = $to;
+                } else {
+                    $_SESSION['errors']['avatar'] = "Upload failed";
+
+                    header('Location: ' . url("admin/users/{$user['id']}/edit"));
+                    exit;
+                }
+
+            }
+
+            $this->user->update($id, $data);
+
+            if (
+                $flagUpload
+                && $user['avatar']
+                && file_exists(PATH_ROOT . $user['avatar'])
+            ) {
+                unlink(PATH_ROOT . $user['avatar']);
+            }
+
+            $_SESSION['status'] = true;
+            $_SESSION['msg'] = 'Thao tác thành công';
+
+            header('Location: ' . url("admin/users/{$user['id']}/edit"));
+            exit;
+        }
     }
     public function delete($id)
     {
