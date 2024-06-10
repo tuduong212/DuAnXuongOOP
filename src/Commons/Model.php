@@ -25,6 +25,12 @@ class Model
         $this->queryBuilder = $this->conn->createQueryBuilder();
 
     }
+
+    public function getConnection()
+    {
+        return $this->conn;
+    }
+
     public function all()
     {
         return $this->queryBuilder
@@ -39,9 +45,9 @@ class Model
             ->from($this->tableName)
             ->fetchOne();
     }
-    public function paginate($page = 1, $perPage = 5)
+    public function paginate($page = 1, $perPage = 6)
     {
-        $queryBuider = clone($this->queryBuilder);
+        $queryBuider = clone ($this->queryBuilder);
         $totalPage = ceil($this->count() / $perPage);
 
         $offset = $perPage * ($page - 1);
@@ -49,7 +55,7 @@ class Model
         $data = $queryBuider
             ->select('*')
             ->from($this->tableName)
-            ->orderBy('id', 'DESC')
+            ->orderBy('id', 'ASC')
             ->setFirstResult($offset)
             ->setMaxResults($perPage)
             ->fetchAllAssociative();

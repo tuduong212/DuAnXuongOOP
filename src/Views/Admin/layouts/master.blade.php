@@ -20,6 +20,9 @@
 
         @include('layouts.partials.topbar')
 
+        <h1>@yield('title')</h1>
+
+
         <div class="main_content_iner overly_inner ">
             <div class="container-fluid p-0 ">
 

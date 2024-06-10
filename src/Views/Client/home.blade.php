@@ -1,37 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.master')
+@section('title')
+    Home
+@endsection
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ asset('assets/admin/css/style1.css') }}">
-    <title>Home</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-    </script>
-</head>
+@section('content')
+    <h2 class="h5 section-title">Sản phẩm mới</h2>
+    <div class="row">
+        @foreach ($data as $product)
+            <div class="col-lg-4 mb-5">
+                <article class="card">
+                    <div class="post-slider slider-sm">
+                        <a href="{{ url('/products/' . $product['id']) }}">
+                            <img src="{{ asset($product['img_thumbnail']) }}" class="card-img-top" alt="post-thumb"
+                                style="max-height: 205px">
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="h4 mb-3">
+                            <a class="post-title" href="{{ url('/products/' . $product['id']) }}">
+                                {{ $product['name'] }}
+                            </a>
+                        </h3>
 
-<body>
-    <div class="container">
-        <h2 class="mt-5">Welcome to
-            {{ $name }} website
-        </h2>
-
-        <div class="row">
-            <nav>
-                @if (!isset($_SESSION['user']))
-                    <a class="btn btn-primary" href="{{ url('login') }}">Login</a>
-                @endif
-
-                @if (isset($_SESSION['user']))
-                    <a class="btn btn-primary" href="{{ url('logout') }}">Logout</a>
-                @endif
-
-            </nav>
-        </div>
+                        <a href="{{ url('cart/add/') }}?quantity=1&productID={{ $product['id'] }}"
+                            class="btn btn-oulined-primary">Thêm vào giỏ hàng</a>
+                    </div>
+                </article>
+            </div>
+            
+        @endforeach
     </div>
-</body>
 
-</html>
+    @for ($i = 1; $i <= $totalPage; $i++)
+        @php
+        echo '<a href="http://localhost/XuongOOP?page=' . $i . '" class="btn btn-outlined-primary">Page ' . $i . '</a> ';
+        @endphp
+    @endfor
+@endsection

@@ -14,7 +14,7 @@
                 <span>Dashboard</span>
             </a>
             <ul>
-                <li><a class="active" href="index-2.html">Sales</a></li>
+                <li><a class="active" href="{{ url() }}">Main web</a></li>
                 <li><a href="index_2.html">Default</a></li>
                 <li><a href="index_3.html">Dark Menu</a></li>
             </ul>
@@ -25,6 +25,22 @@
                     <img src="{{ asset('assets/admin/img/menu-icon/5.svg') }}" alt>
                 </div>
                 <span>User</span>
+            </a>
+        </li>
+        <li class>
+            <a href="{{ asset('admin/categories') }}" aria-expanded="false">
+                <div class="icon_menu">
+                    <img src="{{ asset('assets/admin/img/menu-icon/5.svg') }}" alt>
+                </div>
+                <span>Category</span>
+            </a>
+        </li>
+        <li class>
+            <a href="{{ asset('admin/products') }}" aria-expanded="false">
+                <div class="icon_menu">
+                    <img src="{{ asset('assets/admin/img/menu-icon/5.svg') }}" alt>
+                </div>
+                <span>Product</span>
             </a>
         </li>
         <li class>

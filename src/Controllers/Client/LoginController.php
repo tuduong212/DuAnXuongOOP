@@ -36,7 +36,13 @@ class LoginController extends Controller
             if ($flag) {
                 $_SESSION['user'] = $user;
 
-                header('Location: ' . url('admin/'));
+                unset($_SESSION['cart']);
+
+                if ($user['type'] == 'admin') {
+                    header('Location: ' . url('admin/'));
+                } else {
+                    header('Location: ' . url());
+                }
                 exit;
             }
 
@@ -53,6 +59,7 @@ class LoginController extends Controller
     public function logout()
     {
         unset($_SESSION['user']);
+        unset($_SESSION['cart-' . $_SESSION['user']['id']]);
 
         header('Location: ' . url('/'));
     }

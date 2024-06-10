@@ -3,15 +3,28 @@
 namespace Dell\XuongOop\Controllers\Client;
 
 use Dell\XuongOop\Commons\Controller;
+use Dell\XuongOop\Models\Product;
 
 class ProductController extends Controller
 {
+
+    private Product $product;
+
+    public function __construct()
+    {
+        $this->product = new Product;
+    }
+
     public function index()
     {
         echo __CLASS__ . '@' . __FUNCTION__;
     }
     public function detail($id)
     {
-        echo __CLASS__ . '@' . "$id" . '@' . __FUNCTION__;
+        $product = $this->product->findByID($id);
+
+        $this->renderViewClient('product-details', [
+            'product' => $product
+        ]);
     }
 }

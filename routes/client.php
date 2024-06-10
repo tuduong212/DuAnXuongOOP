@@ -1,9 +1,11 @@
 <?php
 
 use Dell\XuongOop\Controllers\Client\AboutController;
+use Dell\XuongOop\Controllers\Client\CartController;
 use Dell\XuongOop\Controllers\Client\ContactController;
 use Dell\XuongOop\Controllers\Client\HomeController;
 use Dell\XuongOop\Controllers\Client\LoginController;
+use Dell\XuongOop\Controllers\Client\OrderController;
 use Dell\XuongOop\Controllers\Client\ProductController;
 
 
@@ -35,6 +37,19 @@ $router->get('/products/{id}', ProductController::class . '@detail');
 $router->get('/login', LoginController::class . '@showFormLogin');
 $router->post('/handle-login', LoginController::class . '@login');
 $router->get('/logout', LoginController::class . '@logout');
+
+$router->get('cart/add', CartController::class . '@add');
+$router->get('cart/quantityInc', CartController::class . '@increaseQuantity');
+$router->get('cart/quantityDec', CartController::class . '@decreaseQuantity');
+$router->get('cart/remove', CartController::class . '@remove');
+$router->get('cart/detail', CartController::class . '@detail');
+
+$router->post('order/checkout', OrderController::class . '@checkout');
+
+
+
+
+
 
 
 
