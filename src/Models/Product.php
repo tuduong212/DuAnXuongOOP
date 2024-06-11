@@ -8,12 +8,12 @@ class Product extends Model
 {
     protected string $tableName = 'products';
 
-    public function allCategories()
-    {
-        return $this->queryBuilder
-            ->select('*')
-            ->from('categories')
-            ->fetchAllAssociative();
-    }
+    // public function allCategories()
+    // {
+    //     return $this->queryBuilder
+    //         ->select('*')
+    //         ->from('categories')
+    //         ->fetchAllAssociative();
+    // }
 
 }

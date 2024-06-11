@@ -29,7 +29,7 @@
                 <label for="category_id" class="form-label">Category</label>
                 <select name="category_id" id="" class="form-control">
                     <option value="" hidden>--Choose category--</option>
-                    @foreach ($ProCate as $item)
+                    @foreach ($category as $item)
                         <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
                     @endforeach
                 </select>

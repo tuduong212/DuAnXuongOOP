@@ -29,14 +29,14 @@
                 <label for="category_id" class="form-label">Category</label>
                 <select name="category_id" id="" class="form-control">
                     <option value="" hidden>--Choose category--</option>
-                    @foreach ($ProCate as $item)
+                    @foreach ($category as $item)
                         @php
                             $m = '';
-                            if ($item['idCategory'] == $product['category_id']) {
+                            if ($item['id'] == $product['category_id']) {
                                 $m = 'selected';
                             }
                         @endphp
-                        <option value="{{ $item['idCategory'] }}" {{$m}}>
+                        <option value="{{ $item['id'] }}" {{$m}}>
                             {{ $item['name'] }}
                         </option>
                     @endforeach

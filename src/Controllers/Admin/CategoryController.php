@@ -94,7 +94,7 @@ class CategoryController extends Controller
             $_SESSION['status'] = true;
             $_SESSION['msg'] = 'Thao tác thành công';
 
-            header('Location: ' . url("admin/categories/{$category['idCategory']}/edit"));
+            header('Location: ' . url("admin/categories/{$category['id']}/edit"));
             exit;
         }
     }

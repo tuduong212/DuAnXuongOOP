@@ -4,12 +4,14 @@ namespace Dell\XuongOop\Controllers\Admin;
 
 use Dell\XuongOop\Commons\Controller;
 use Dell\XuongOop\Commons\Helper;
+use Dell\XuongOop\Models\Category;
 use Dell\XuongOop\Models\Product;
 use Rakit\Validation\Validator;
 
 class ProductController extends Controller
 {
     private Product $product;
+    private Category $category;
     public function __construct()
     {
         $this->product = new Product();
@@ -25,9 +27,9 @@ class ProductController extends Controller
     }
     public function create()
     {
-        $ProCate=$this->product->allCategories();
+        $category=$this->category->all();
         $this->renderViewAdmin('products.create',[
-            'ProCate'=>$ProCate
+            'category'=>$category
         ]);
     }
     public function store()
@@ -91,11 +93,11 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = $this->product->findByID($id);
-        $ProCate=$this->product->allCategories();
+        $category= $this->category->all();
 
         $this->renderViewAdmin('products.edit', [
             'product' => $product,
-            'ProCate' => $ProCate
+            'category' => $category
         ]);
     }
     public function update($id)

@@ -69,4 +69,9 @@
             </div>
         </div>
     </div>
+    @for ($i = 1; $i <= $totalPage; $i++)
+        @php
+        echo '<a href="http://localhost/XuongOOP/admin/users?page=' . $i . '" class="btn btn-outline-primary">Page ' . $i . '</a> ';
+        @endphp
+    @endfor
 @endsection

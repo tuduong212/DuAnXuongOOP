@@ -22,7 +22,7 @@
         <div class="row">
             <div class="col-lg-6">
                 <label for="id" class="form-label">Category id</label>
-                <input type="text" name="id" id="" class="form-control" value="{{ $category['idCategory'] }}"
+                <input type="text" name="id" id="" class="form-control" value="{{ $category['id'] }}"
                     readonly>
             </div>
             <div class="col-lg-6">

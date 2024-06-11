@@ -40,14 +40,14 @@
                             <tbody>
                                 @foreach ($data as $category)
                                     <tr>
-                                        <td><?= $category['idCategory'] ?></td>
+                                        <td><?= $category['id'] ?></td>
                                         <td><?= $category['name'] ?></td>
                                         <td>
                                             <a class="btn btn-danger" role="button"
-                                                href="{{ url('admin/categories/' . $category['idCategory'] . '/delete') }}"
+                                                href="{{ url('admin/categories/' . $category['id'] . '/delete') }}"
                                                 onclick="return confirm('Confirm delete?')">Delete</a>
                                             <a class="btn btn-warning" role="button"
-                                                href="{{ url('admin/categories/' . $category['idCategory'] . '/edit') }}">Edit</a>
+                                                href="{{ url('admin/categories/' . $category['id'] . '/edit') }}">Edit</a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -58,4 +58,9 @@
             </div>
         </div>
     </div>
+    @for ($i = 1; $i <= $totalPage; $i++)
+        @php
+        echo '<a href="http://localhost/XuongOOP/admin/categories?page=' . $i . '" class="btn btn-outline-primary">Page ' . $i . '</a> ';
+        @endphp
+    @endfor
 @endsection
