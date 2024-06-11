@@ -11,9 +11,10 @@ use Rakit\Validation\Validator;
 class ProductController extends Controller
 {
     private Product $product;
-    private Category $category;
+    public Category $category;
     public function __construct()
     {
+        $this->category = new Category();
         $this->product = new Product();
     }
     public function index()
@@ -39,7 +40,7 @@ class ProductController extends Controller
             'name' => 'required|max:50',
             'category_id' => 'required',
             'price_regular' => 'required|max:10',
-            'price_sale' => 'min:0|max:10',
+            'price_sale' => '',
             'overview' => 'required',
             'content' => 'required',
             'img_thumbnail' => 'uploaded_file:0,2M,png,jpg,jpeg',
@@ -58,8 +59,8 @@ class ProductController extends Controller
                 'price_sale' => $_POST['price_sale'],
                 'overview' => $_POST['overview'],
                 'content' => $_POST['content'],
-                
             ];
+
             if (isset($_FILES['img_thumbnail']) && $_FILES['img_thumbnail']['size'] > 0) {
                 $from = $_FILES['img_thumbnail']['tmp_name'];
                 $to = 'assets/uploads/' . time() . $_FILES['img_thumbnail']['name'];
@@ -93,7 +94,7 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = $this->product->findByID($id);
-        $category= $this->category->all();
+        $category=$this->category->all();
 
         $this->renderViewAdmin('products.edit', [
             'product' => $product,
@@ -108,7 +109,7 @@ class ProductController extends Controller
             'name' => 'required|max:50',
             'category_id' => 'required',
             'price_regular' => 'required|max:10',
-            'price_sale' => 'max:10',
+            'price_sale' => 'min:0|max:10',
             'overview' => 'required',
             'content' => 'required',
             'img_thumbnail' => 'uploaded_file:0,2M,png,jpg,jpeg',

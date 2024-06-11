@@ -52,7 +52,7 @@
             </div>
             <div class="col-lg-6 mb-3">
                 <label for="price_sale" class="form-label">Price sale</label>
-                <input type="text" name="price_sale" id="" class="form-control" placeholder=""
+                <input type="number" name="price_sale" id="" class="form-control" placeholder=""
                     value="{{ $product['price_sale'] }}">
             </div>
         </div>
